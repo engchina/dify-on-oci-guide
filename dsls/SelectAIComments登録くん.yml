@@ -1,0 +1,586 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: SelectAIComments登録くん
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: hjlarry/database:0.0.6@2f547ea4b80c5bbec2b953843a37de9aff7427d276b763a8e237c6b2188359b3
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1750064587986-source-1750067099942-target
+      source: '1750064587986'
+      sourceHandle: source
+      target: '1750067099942'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1750067099942-source-1750070168658-target
+      source: '1750067099942'
+      sourceHandle: source
+      target: '1750070168658'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1750070168658-source-1750065065957-target
+      source: '1750070168658'
+      sourceHandle: source
+      target: '1750065065957'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750070168658'
+        sourceType: if-else
+        targetType: tool
+      id: 1750070208604-true-1750070247656-target
+      source: '1750070208604'
+      sourceHandle: 'true'
+      target: '1750070247656'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750070168658'
+        sourceType: iteration-start
+        targetType: if-else
+      id: 1750070168658start-source-1750070208604-target
+      source: 1750070168658start
+      sourceHandle: source
+      target: '1750070208604'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750070168658'
+        sourceType: tool
+        targetType: code
+      id: 1750070247656-source-1750070775070-target
+      source: '1750070247656'
+      sourceHandle: source
+      target: '1750070775070'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: profile_name
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: profile_name
+        - label: adb_username
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: adb_username
+        - label: adb_password
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: adb_password
+        - label: adb_connection_string
+          max_length: 512
+          options: []
+          required: true
+          type: paragraph
+          variable: adb_connection_string
+        - label: object_name
+          max_length: 128
+          options: []
+          required: true
+          type: text-input
+          variable: object_name
+        - label: result
+          max_length: 10240
+          options: []
+          required: true
+          type: paragraph
+          variable: result
+      height: 219
+      id: '1750064587986'
+      position:
+        x: 30
+        y: 396.5
+      positionAbsolute:
+        x: 30
+        y: 396.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750070168658'
+          - output
+          variable: result
+        selected: false
+        title: output_final_result
+        type: end
+      height: 89
+      id: '1750065065957'
+      position:
+        x: 2070
+        y: 396.5
+      positionAbsolute:
+        x: 2070
+        y: 396.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(result_str: str) -> dict:\n    result_str =\
+          \ result_str.strip()\n    result_json = json.loads(result_str)\n    result\
+          \ = result_json[\"result\"]\n    result = result.lstrip(\"```sql\")\n  \
+          \  result = result.rstrip(\"```\")\n\n    # 将结果按行分割\n    lines = result.split('\\\
+          n')\n\n    # 去掉每行末尾的分号并过滤空行\n    lines = [line.rstrip(';').strip() for line\
+          \ in lines if line.strip()]\n\n    return {\n        \"result\": lines,\n\
+          \    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[string]
+        selected: false
+        title: seperate_comments_sql
+        type: code
+        variables:
+        - value_selector:
+          - '1750064587986'
+          - result
+          variable: result_str
+      height: 53
+      id: '1750067099942'
+      position:
+        x: 334
+        y: 396.5
+      positionAbsolute:
+        x: 334
+        y: 396.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 393
+        is_parallel: false
+        iterator_selector:
+        - '1750067099942'
+        - result
+        output_selector:
+        - '1750070775070'
+        - result
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1750070168658start
+        title: handle_comments_sql
+        type: iteration
+        width: 1372
+      height: 393
+      id: '1750070168658'
+      position:
+        x: 638
+        y: 396.5
+      positionAbsolute:
+        x: 638
+        y: 396.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1372
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1750070168658start
+      parentId: '1750070168658'
+      position:
+        x: 60
+        y: 98.5
+      positionAbsolute:
+        x: 698
+        y: 495
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: a9786371-2922-43bf-b934-2b14c73fa84c
+            value: ''
+            varType: string
+            variable_selector:
+            - '1750070168658'
+            - item
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750070168658'
+        selected: false
+        title: if_sql_not_none
+        type: if-else
+      height: 125
+      id: '1750070208604'
+      parentId: '1750070168658'
+      position:
+        x: 204
+        y: 60
+      positionAbsolute:
+        x: 842
+        y: 456.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1750070168658'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The SQL query string.
+            ja_JP: The SQL query string.
+            pt_BR: The SQL query string.
+            zh_Hans: SQL 查询语句。
+          label:
+            en_US: SQL Query
+            ja_JP: SQL Query
+            pt_BR: SQL Query
+            zh_Hans: SQL 查询语句
+          llm_description: The SQL query string.
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            ja_JP: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            pt_BR: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            zh_Hans: 选填，填写后将覆盖授权时填写的数据库连接。
+          label:
+            en_US: DB URI
+            ja_JP: DB URI
+            pt_BR: DB URI
+            zh_Hans: DB URI
+          llm_description: ''
+          max: null
+          min: null
+          name: db_uri
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: json
+          form: form
+          human_description:
+            en_US: Choose the output format.
+            ja_JP: Choose the output format.
+            pt_BR: Choose the output format.
+            zh_Hans: 选择输出格式。
+          label:
+            en_US: Output format
+            ja_JP: Output format
+            pt_BR: Output format
+            zh_Hans: 输出格式
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - label:
+              en_US: JSON
+              ja_JP: JSON
+              pt_BR: JSON
+              zh_Hans: JSON
+            value: json
+          - label:
+              en_US: CSV
+              ja_JP: CSV
+              pt_BR: CSV
+              zh_Hans: CSV
+            value: csv
+          - label:
+              en_US: YAML
+              ja_JP: YAML
+              pt_BR: YAML
+              zh_Hans: YAML
+            value: yaml
+          - label:
+              en_US: Markdown
+              ja_JP: Markdown
+              pt_BR: Markdown
+              zh_Hans: Markdown
+            value: md
+          - label:
+              en_US: Excel
+              ja_JP: Excel
+              pt_BR: Excel
+              zh_Hans: Excel
+            value: xlsx
+          - label:
+              en_US: HTML
+              ja_JP: HTML
+              pt_BR: HTML
+              zh_Hans: HTML
+            value: html
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            ja_JP: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            pt_BR: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            zh_Hans: '选填项。例如 {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              更多连接选项可参考 https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+          label:
+            en_US: DB Config Options
+            ja_JP: DB Config Options
+            pt_BR: DB Config Options
+            zh_Hans: 数据库连接配置选项
+          llm_description: ''
+          max: null
+          min: null
+          name: config_options
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          config_options: ''
+          db_uri: ''
+          format: ''
+          query: ''
+        provider_id: hjlarry/database/database
+        provider_name: hjlarry/database/database
+        provider_type: builtin
+        selected: false
+        title: execute_comments_sql
+        tool_configurations:
+          config_options: null
+          format: json
+        tool_description: This tool is used to execute SQL in an existing database.
+        tool_label: SQL Execute
+        tool_name: sql_execute
+        tool_parameters:
+          db_uri:
+            type: mixed
+            value: oracle+oracledb://{{#1750064587986.adb_username#}}:{{#1750064587986.adb_password#}}@{{#1750064587986.adb_connection_string#}}
+          query:
+            type: mixed
+            value: '{{#1750070168658.item#}}'
+        type: tool
+      height: 115
+      id: '1750070247656'
+      parentId: '1750070168658'
+      position:
+        x: 508
+        y: 65
+      positionAbsolute:
+        x: 1146
+        y: 461.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        code: "\nimport json\n\ndef main(index, item, sql_result) -> dict:\n    try:\n\
+          \        key = f\"{str(index)}_{item}\"\n        return {\n            \"\
+          result\": [{key: sql_result}]\n        }\n    except Exception as e:\n \
+          \       return {\"error\": f\"解析失败: {str(e)}\"}"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750070168658'
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: handle_sql_result
+        type: code
+        variables:
+        - value_selector:
+          - '1750070168658'
+          - index
+          variable: index
+        - value_selector:
+          - '1750070168658'
+          - item
+          variable: item
+        - value_selector:
+          - '1750070247656'
+          - text
+          variable: sql_result
+      height: 53
+      id: '1750070775070'
+      parentId: '1750070168658'
+      position:
+        x: 812
+        y: 96
+      positionAbsolute:
+        x: 1450
+        y: 492.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    viewport:
+      x: -866
+      y: 14.999999999999943
+      zoom: 0.7

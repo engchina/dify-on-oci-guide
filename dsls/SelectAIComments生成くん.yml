@@ -678,7 +678,7 @@ workflow:
       positionAbsolute:
         x: 638
         y: 606.5
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1297,10 +1297,9 @@ workflow:
             \   - サンプルデータから推測される値のパターンを記載\n   - 単位/フォーマットがあれば明記\n   - 主キー/外部キー情報を反映\n\
             \   - 500文字以内で簡潔に\n\n3. 特殊属性:\n   - 主キー: 「(主キー)」を追加\n   - 外部キー: 「参照テーブル:\
             \ [テーブル名]」を追加\n   - 削除ルール: 「削除時: [アクション]」を追加\n   - コード値: 値の意味を説明 (例: \"\
-            1:有効, 0:無効\")\n\n4. 出力形式:\n```sql\n-- テーブルコメント\nCOMMENT ON TABLE DEPARTMENTS\
-            \ IS '[コメント]';\n\n-- カラムコメント\nCOMMENT ON COLUMN DEPARTMENTS.[列名] IS '[コメント]';\n\
-            ```\n"
-        selected: false
+            1:有効, 0:無効\")\n\n4. 出力形式:\n```sql\nCOMMENT ON TABLE DEPARTMENTS IS '[コメント]';\n\
+            \nCOMMENT ON COLUMN DEPARTMENTS.[列名] IS '[コメント]';\n```\n"
+        selected: true
         title: LLM
         type: llm
         variables: []
@@ -1314,7 +1313,7 @@ workflow:
       positionAbsolute:
         x: 942
         y: 606.5
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom

@@ -1,0 +1,745 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: SelectAIProfile作成くん
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: hjlarry/database:0.0.6@2f547ea4b80c5bbec2b953843a37de9aff7427d276b763a8e237c6b2188359b3
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1750054054809-true-1750052382530-target
+      source: '1750054054809'
+      sourceHandle: 'true'
+      target: '1750052382530'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 17500527184870-source-1750052391361-target
+      source: '17500527184870'
+      sourceHandle: source
+      target: '1750052391361'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1750052353565-source-1750054054809-target
+      source: '1750052353565'
+      sourceHandle: source
+      target: '1750054054809'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1750052382530-source-1750056741261-target
+      source: '1750052382530'
+      sourceHandle: source
+      target: '1750056741261'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1750054054809-false-1750056741261-target
+      source: '1750054054809'
+      sourceHandle: 'false'
+      target: '1750056741261'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1750056741261-source-17500527184870-target
+      source: '1750056741261'
+      sourceHandle: source
+      target: '17500527184870'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: profile_name
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: profile_name
+        - label: drop_existing_profile
+          max_length: 256
+          options:
+          - 'Yes'
+          - 'No'
+          required: true
+          type: select
+          variable: drop_existing_profile
+        - label: credential_name
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: credential_name
+        - allowed_file_extensions:
+          - .pem
+          allowed_file_types:
+          - custom
+          allowed_file_upload_methods:
+          - local_file
+          label: provider
+          max_length: 256
+          options:
+          - oci
+          required: true
+          type: select
+          variable: provider
+        - label: region
+          max_length: 256
+          options:
+          - ap-osaka-1
+          - us-chicago-1
+          required: true
+          type: select
+          variable: region
+        - allowed_file_extensions:
+          - .pem
+          allowed_file_types:
+          - custom
+          allowed_file_upload_methods:
+          - local_file
+          label: model
+          max_length: 256
+          options:
+          - cohere.command-r-plus-08-2024
+          - cohere.command-a-03-2025
+          - meta.llama-3.3-70b-instruct
+          - meta.llama-4-maverick-17b-128e-instruct-fp8
+          - meta.llama-4-scout-17b-16e-instruct
+          required: true
+          type: select
+          variable: model
+        - label: adb_username
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: adb_username
+        - label: adb_password
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: adb_password
+        - label: adb_connection_string
+          max_length: 512
+          options: []
+          required: true
+          type: paragraph
+          variable: adb_connection_string
+        - label: object_list
+          max_length: 2048
+          options: []
+          required: true
+          type: paragraph
+          variable: object_list
+      height: 323
+      id: '1750052353565'
+      position:
+        x: 30
+        y: 361.5
+      positionAbsolute:
+        x: 30
+        y: 361.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The SQL query string.
+            ja_JP: The SQL query string.
+            pt_BR: The SQL query string.
+            zh_Hans: SQL 查询语句。
+          label:
+            en_US: SQL Query
+            ja_JP: SQL Query
+            pt_BR: SQL Query
+            zh_Hans: SQL 查询语句
+          llm_description: The SQL query string.
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            ja_JP: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            pt_BR: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            zh_Hans: 选填，填写后将覆盖授权时填写的数据库连接。
+          label:
+            en_US: DB URI
+            ja_JP: DB URI
+            pt_BR: DB URI
+            zh_Hans: DB URI
+          llm_description: ''
+          max: null
+          min: null
+          name: db_uri
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: json
+          form: form
+          human_description:
+            en_US: Choose the output format.
+            ja_JP: Choose the output format.
+            pt_BR: Choose the output format.
+            zh_Hans: 选择输出格式。
+          label:
+            en_US: Output format
+            ja_JP: Output format
+            pt_BR: Output format
+            zh_Hans: 输出格式
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - label:
+              en_US: JSON
+              ja_JP: JSON
+              pt_BR: JSON
+              zh_Hans: JSON
+            value: json
+          - label:
+              en_US: CSV
+              ja_JP: CSV
+              pt_BR: CSV
+              zh_Hans: CSV
+            value: csv
+          - label:
+              en_US: YAML
+              ja_JP: YAML
+              pt_BR: YAML
+              zh_Hans: YAML
+            value: yaml
+          - label:
+              en_US: Markdown
+              ja_JP: Markdown
+              pt_BR: Markdown
+              zh_Hans: Markdown
+            value: md
+          - label:
+              en_US: Excel
+              ja_JP: Excel
+              pt_BR: Excel
+              zh_Hans: Excel
+            value: xlsx
+          - label:
+              en_US: HTML
+              ja_JP: HTML
+              pt_BR: HTML
+              zh_Hans: HTML
+            value: html
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            ja_JP: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            pt_BR: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            zh_Hans: '选填项。例如 {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              更多连接选项可参考 https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+          label:
+            en_US: DB Config Options
+            ja_JP: DB Config Options
+            pt_BR: DB Config Options
+            zh_Hans: 数据库连接配置选项
+          llm_description: ''
+          max: null
+          min: null
+          name: config_options
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          config_options: ''
+          db_uri: ''
+          format: ''
+          query: ''
+        provider_id: hjlarry/database/database
+        provider_name: hjlarry/database/database
+        provider_type: builtin
+        selected: false
+        title: drop_profile
+        tool_configurations:
+          config_options: null
+          format: json
+        tool_description: This tool is used to execute SQL in an existing database.
+        tool_label: SQL Execute
+        tool_name: sql_execute
+        tool_parameters:
+          db_uri:
+            type: mixed
+            value: oracle+oracledb://{{#1750052353565.adb_username#}}:{{#1750052353565.adb_password#}}@{{#1750052353565.adb_connection_string#}}
+          query:
+            type: mixed
+            value: 'BEGIN
+
+              DBMS_CLOUD_AI.DROP_PROFILE(
+
+              profile_name=> ''{{#1750052353565.profile_name#}}''
+
+              );
+
+              END;'
+        type: tool
+      height: 115
+      id: '1750052382530'
+      position:
+        x: 638
+        y: 361.5
+      positionAbsolute:
+        x: 638
+        y: 361.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750052382530'
+          - text
+          variable: drop_profile_result
+        - value_selector:
+          - '17500527184870'
+          - text
+          variable: create_profile_result
+        selected: false
+        title: 終了
+        type: end
+      height: 115
+      id: '1750052391361'
+      position:
+        x: 1550
+        y: 361.5
+      positionAbsolute:
+        x: 1550
+        y: 361.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The SQL query string.
+            ja_JP: The SQL query string.
+            pt_BR: The SQL query string.
+            zh_Hans: SQL 查询语句。
+          label:
+            en_US: SQL Query
+            ja_JP: SQL Query
+            pt_BR: SQL Query
+            zh_Hans: SQL 查询语句
+          llm_description: The SQL query string.
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            ja_JP: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            pt_BR: Optional, Filling in this field will overwrite the database connection
+              entered during authorization.
+            zh_Hans: 选填，填写后将覆盖授权时填写的数据库连接。
+          label:
+            en_US: DB URI
+            ja_JP: DB URI
+            pt_BR: DB URI
+            zh_Hans: DB URI
+          llm_description: ''
+          max: null
+          min: null
+          name: db_uri
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: json
+          form: form
+          human_description:
+            en_US: Choose the output format.
+            ja_JP: Choose the output format.
+            pt_BR: Choose the output format.
+            zh_Hans: 选择输出格式。
+          label:
+            en_US: Output format
+            ja_JP: Output format
+            pt_BR: Output format
+            zh_Hans: 输出格式
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - label:
+              en_US: JSON
+              ja_JP: JSON
+              pt_BR: JSON
+              zh_Hans: JSON
+            value: json
+          - label:
+              en_US: CSV
+              ja_JP: CSV
+              pt_BR: CSV
+              zh_Hans: CSV
+            value: csv
+          - label:
+              en_US: YAML
+              ja_JP: YAML
+              pt_BR: YAML
+              zh_Hans: YAML
+            value: yaml
+          - label:
+              en_US: Markdown
+              ja_JP: Markdown
+              pt_BR: Markdown
+              zh_Hans: Markdown
+            value: md
+          - label:
+              en_US: Excel
+              ja_JP: Excel
+              pt_BR: Excel
+              zh_Hans: Excel
+            value: xlsx
+          - label:
+              en_US: HTML
+              ja_JP: HTML
+              pt_BR: HTML
+              zh_Hans: HTML
+            value: html
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            ja_JP: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            pt_BR: 'Optional. For example {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              More connection options can be found at https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+            zh_Hans: '选填项。例如 {"connect_args": {"ssl": {"ca": "/path/to/ca.pem"}}}
+
+              更多连接选项可参考 https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
+
+              '
+          label:
+            en_US: DB Config Options
+            ja_JP: DB Config Options
+            pt_BR: DB Config Options
+            zh_Hans: 数据库连接配置选项
+          llm_description: ''
+          max: null
+          min: null
+          name: config_options
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          config_options: ''
+          db_uri: ''
+          format: ''
+          query: ''
+        provider_id: hjlarry/database/database
+        provider_name: hjlarry/database/database
+        provider_type: builtin
+        selected: false
+        title: create_profile
+        tool_configurations:
+          config_options: null
+          format: json
+        tool_description: This tool is used to execute SQL in an existing database.
+        tool_label: SQL Execute
+        tool_name: sql_execute
+        tool_parameters:
+          db_uri:
+            type: mixed
+            value: oracle+oracledb://{{#1750052353565.adb_username#}}:{{#1750052353565.adb_password#}}@{{#1750052353565.adb_connection_string#}}
+          query:
+            type: mixed
+            value: 'BEGIN
+
+              DBMS_CLOUD_AI.CREATE_PROFILE(
+
+              profile_name => ''{{#1750052353565.profile_name#}}'',
+
+              attributes => ''{"provider": "{{#1750052353565.provider#}}",
+
+              "credential_name": "{{#1750052353565.credential_name#}}",
+
+              "region": "{{#1750052353565.region#}}",
+
+              "model": "{{#1750052353565.model#}}",
+
+              "object_list": {{#1750056741261.result#}}
+
+              }'',
+
+              status => ''ENABLED'',
+
+              description => ''AI profile to use OCI Generative AI for SQL translation''
+
+              );
+
+              END;'
+        type: tool
+      height: 115
+      id: '17500527184870'
+      position:
+        x: 1246
+        y: 361.5
+      positionAbsolute:
+        x: 1246
+        y: 361.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 100c90d0-8552-4d20-9139-6d2aaece49f2
+            value: 'Yes'
+            varType: string
+            variable_selector:
+            - '1750052353565'
+            - drop_existing_profile
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 125
+      id: '1750054054809'
+      position:
+        x: 334
+        y: 361.5
+      positionAbsolute:
+        x: 334
+        y: 361.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(adb_username: str, object_list: str) -> dict:\n\
+          \    # 将输入的逗号分隔的字符串分割成列表\n    objects = object_list.split(',')\n\n    #\
+          \ 创建包含指定结构的列表\n    result = [{\"owner\": adb_username, \"name\": obj.strip()}\
+          \ for obj in objects]\n\n    return {\"result\": json.dumps(result)}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: コード実行
+        type: code
+        variables:
+        - value_selector:
+          - '1750052353565'
+          - adb_username
+          variable: adb_username
+        - value_selector:
+          - '1750052353565'
+          - object_list
+          variable: object_list
+      height: 53
+      id: '1750056741261'
+      position:
+        x: 942
+        y: 361.5
+      positionAbsolute:
+        x: 942
+        y: 361.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -624.9
+      y: 113.70000000000002
+      zoom: 0.7
